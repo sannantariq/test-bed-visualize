@@ -11,7 +11,10 @@ import signal
 import sys
 import os
 
-# ############################################################################
+
+
+class Collect_User(object):
+	# ############################################################################
 # 	Class: Collect_User
 
 # 	@object variables:
@@ -114,8 +117,6 @@ import os
 # 						device
 
 # 	##########################################################################
-
-class Collect_User(object):
 	def __init__(self, conn_fd, conn_addr, server):
 		self.conn_fd = conn_fd
 		self.BUF_SIZE = 1024

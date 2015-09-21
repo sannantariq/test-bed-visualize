@@ -1,11 +1,33 @@
+
+"""
+This is the module that deals with the FILE IO and manipulation
+
+"""
+
 import time
 
+
 def traverse_line(f):
+	"""
+	Moves file pointer to the end of the current line or until the next new line character
+
+	:param f: file object
+
+	"""
 	c = f.read(1)
 	while(c != '\n'):
 		c = f.read(1)
 
+
+
 def get_file_size(f):
+	"""
+	Calculates the file size in bytes
+
+	:param f: file object
+	:return int: the size of the file
+	
+	"""
 	curr = f.tell()
 	f.seek(0, 2)
 	size = f.tell()
