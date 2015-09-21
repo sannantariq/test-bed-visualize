@@ -517,7 +517,7 @@ class Collect_Server(object):
 
 if __name__ == "__main__":
 	
-	server = Collect_Server('86.36.34.202', 4000, 1, ['CPU', 'MEMORY'], 'registry.txt')
+	server = Collect_Server('86.36.46.237', 4996, 1, ['CPU', 'MEMORY'], 'registry.txt')
 	# if len(sys.argv) != 5:
 	# 	print 'Usage: ./Collect_Server [port] [polling interval] [metric1, metric2...] [path to registry file]'
 	# 	exit()

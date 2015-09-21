@@ -37,7 +37,7 @@ def main(argv):
    N = int(argv[4])
 
    # Establishing connection with server
-   TCP_PORT = 4000
+   TCP_PORT = 4996
    BUFFER_SIZE = 1024
    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
    print TCP_IP, TCP_PORT

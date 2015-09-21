@@ -542,5 +542,5 @@ class Server(object):
 		return -1
 
 if __name__ == "__main__":
-	server = Server('86.36.34.202', 5996, 'stariq', '7wakatl28e', 'registry.txt')
+	server = Server('86.36.46.237', 5996, 'stariq', '7wakatl28e', 'registry.txt')
 	server.run()
