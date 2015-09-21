@@ -115,9 +115,9 @@ def get_tokens_from_plots(plot_list):
 
 #############################################################################
 
-Class:	Plot
+# Class:	Plot
 
-@object variables:
+# @object variables:
 class Plot(object):
 	def __init__(self, title, node_ids, params, client_fd, tokens, maxpoints = 50):
 		self.ids = node_ids

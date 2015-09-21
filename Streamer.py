@@ -156,13 +156,13 @@ def convert_types(input):
 	# @return_val:	None
 
 	# #########################################################################
-	@name:	
+	# @name:	
 
-	@description:	
+	# @description:	
 
-	@inputs:	
+	# @inputs:	
 
-	@return_val:	
+	# @return_val:	
 
 	#####
 
@@ -542,5 +542,5 @@ class Server(object):
 		return -1
 
 if __name__ == "__main__":
-	server = Server('localhost', 5996, 'stariq', '7wakatl28e', 'registry.txt')
+	server = Server('86.36.34.202', 5996, 'stariq', '7wakatl28e', 'registry.txt')
 	server.run()
