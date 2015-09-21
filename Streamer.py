@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import select
 import socket
 import Plotter as PT
@@ -542,5 +544,8 @@ class Server(object):
 		return -1
 
 if __name__ == "__main__":
-	server = Server('86.36.46.237', 5996, 'stariq', '7wakatl28e', 'registry.txt')
+	f = os.popen('hostname -i')
+	HOST_IP = f.read().strip()
+	f.close()
+	server = Server(HOST_IP, 5996, 'stariq', '7wakatl28e', 'registry.txt')
 	server.run()

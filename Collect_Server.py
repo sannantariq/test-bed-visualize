@@ -9,6 +9,7 @@ import json
 import os.path
 import signal
 import sys
+import os
 
 # ############################################################################
 # 	Class: Collect_User
@@ -517,7 +518,10 @@ class Collect_Server(object):
 
 if __name__ == "__main__":
 	
-	server = Collect_Server('86.36.46.237', 4996, 1, ['CPU', 'MEMORY'], 'registry.txt')
+	f = os.popen('hostname -i')
+	HOST_IP = f.read().strip()
+	f.close()
+	server = Collect_Server(HOST_IP, 4996, 1, ['CPU', 'MEMORY'], 'registry.txt')
 	# if len(sys.argv) != 5:
 	# 	print 'Usage: ./Collect_Server [port] [polling interval] [metric1, metric2...] [path to registry file]'
 	# 	exit()
