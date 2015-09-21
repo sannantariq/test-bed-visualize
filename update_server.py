@@ -87,6 +87,7 @@ def main(argv):
 
    # send connect packet
    s.send(json_data+'\END') 
+   print json_data
     
    # initializing values
    update = {}
@@ -123,6 +124,7 @@ def main(argv):
 
        # update server
        s.send(json_data+'\END')
+       print json_data
 
    s.close()
    usage_file.close()
