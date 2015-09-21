@@ -520,8 +520,10 @@ if __name__ == "__main__":
 	
 	f = os.popen('hostname -i')
 	HOST_IP = f.read().strip()
+	HOST_PORT = 4996
 	f.close()
-	server = Collect_Server(HOST_IP, 4996, 1, ['CPU', 'MEMORY'], 'registry.txt')
+	print 'Initializing on ', HOST_IP, HOST_PORT
+	server = Collect_Server(HOST_IP, HOST_PORT, 1, ['CPU', 'MEMORY'], 'registry.txt')
 	# if len(sys.argv) != 5:
 	# 	print 'Usage: ./Collect_Server [port] [polling interval] [metric1, metric2...] [path to registry file]'
 	# 	exit()
