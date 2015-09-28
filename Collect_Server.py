@@ -14,110 +14,101 @@ import os
 
 
 class Collect_User(object):
-	# ############################################################################
-# 	Class: Collect_User
+	"""
+	Class: Collect_User
 
-# 	@object variables:
+	@object variables:
 
-# 		self.conn_fd:	socket object of the connection
-# 		self.BUF_SIZE:	buffer size, maximum that can be read in a single read
-# 		self.read_buffer:	sliding buffer containing data sent by the user
-# 		self.addr:	IP Address of the user
-# 		self.info:	dictionary containing the info of the user
-# 		self.initialized:	boolean var signifying if the client has been
-# 							initialized
-# 		self.readings:	dictionary containing the readings sent by the user with
-# 						the metrics as the keys
-# 		self.reg_file:	registry file provided by the server
-# 		self.server:	server object this user is connected to
-# 		self.metrics:	list of metrics that the user is sending updates for
+		self.conn_fd:	socket object of the connection
+		self.BUF_SIZE:	buffer size, maximum that can be read in a single read
+		self.read_buffer:	sliding buffer containing data sent by the user
+		self.addr:	IP Address of the user
+		self.info:	dictionary containing the info of the user
+		self.initialized:	boolean var signifying if the client has been
+							initialized
+		self.readings:	dictionary containing the readings sent by the user with
+						the metrics as the keys
+		self.reg_file:	registry file provided by the server
+		self.server:	server object this user is connected to
+		self.metrics:	list of metrics that the user is sending updates for
 
-# 	#####
-# 	Methods:
+	#####
+	Methods:
 
-# 	Note: 	client/user/device are used interchangeably and all refer to the
-# 			entity that will be sending updates to this server
+	Note: 	client/user/device are used interchangeably and all refer to the
+			entity that will be sending updates to this server
 
-# 	#####
-# 	@name:	__init__(self, connfd, conn_addr, server)
+	#####
+	
 
-# 	@description: Creates the new Collect_User object
+	#####
 
-# 	@inputs: 	connfd: socket object associated with the user
-# 				conn_addr: IP address of the user
-# 				server: Collect_Server object that this user is connected to
+	######
 
-# 	@return_val: Collect_User object
+	#####
 
-# 	#####
-# 	@name: read(self):
+	@name: initialize(self, msg_dict)
 
-# 	@description:  Populates the self.read_buffer of the object
+	@description: 	initializes the client, adds it to the registry if required
+					and prepares to receive updates from the device
 
-# 	@return_val: 0 if the read was successful, -1 otherwise
+	:param:	msg_dict: Last update sent by the client
 
-# 	######
-# 	@name: get(self)
+	#####
 
-# 	@description: Returns json string message sent by the device
+	@name: get_val(self, metric)
 
-# 	@return_val: json string containing the next message from the device
+	@description: 	get the value associated with key = metric in the
+					self.readings dictionary
 
-# 	#####
+	:param: metric: the key for which you want to retrieve the value
 
-# 	@name: initialize(self, msg_dict)
+	:return: 	empty string if metric does not exist, value of the metric
+					otherwise
 
-# 	@description: 	initializes the client, adds it to the registry if required
-# 					and prepares to receive updates from the device
+	#####
 
-# 	@inputs:	msg_dict: Last update sent by the client
+	@name: set_val(self, metric, val)
 
-# 	#####
+	@description: 	set the value associated with key = metric in the
+					self.readings dictionary
 
-# 	@name: get_val(self, metric)
+	:param: 	metric: the key for which you want to set the value
+				val: the value you want to set the metric at
 
-# 	@description: 	get the value associated with key = metric in the
-# 					self.readings dictionary
+	#####
 
-# 	@inputs: metric: the key for which you want to retrieve the value
+	@name: get_val(self, metric)
 
-# 	@return_val: 	empty string if metric does not exist, value of the metric
-# 					otherwise
+	@description: 	get the value associated with key = metric in the
+					self.readings dictionary
 
-# 	#####
+	:param: metric: the key for which you want to retrieve the value
 
-# 	@name: set_val(self, metric, val)
+	:return: 	empty string if metric does not exist, value of the metric
+					otherwise
 
-# 	@description: 	set the value associated with key = metric in the
-# 					self.readings dictionary
+	#####
 
-# 	@inputs: 	metric: the key for which you want to set the value
-# 				val: the value you want to set the metric at
+	@name: parse(self, line)
 
-# 	#####
+	@description: 	update the self.readings dictionary with the reported 
+					readings
 
-# 	@name: get_val(self, metric)
+	:param: 	line: 	json object containing the update dictionary sent by the
+						device
 
-# 	@description: 	get the value associated with key = metric in the
-# 					self.readings dictionary
-
-# 	@inputs: metric: the key for which you want to retrieve the value
-
-# 	@return_val: 	empty string if metric does not exist, value of the metric
-# 					otherwise
-
-# 	#####
-
-# 	@name: parse(self, line)
-
-# 	@description: 	update the self.readings dictionary with the reported 
-# 					readings
-
-# 	@inputs: 	line: 	json object containing the update dictionary sent by the
-# 						device
-
-# 	##########################################################################
+	"""
 	def __init__(self, conn_fd, conn_addr, server):
+		"""
+		Creates the new Collect_User object
+
+		:param 	connfd: socket object associated with the user
+		:param	conn_addr: IP address of the user
+		:param	server: Collect_Server object that this user is connected to
+
+		:return: Collect_User object
+		"""
 		self.conn_fd = conn_fd
 		self.BUF_SIZE = 1024
 		self.read_buffer = ''
@@ -129,6 +120,11 @@ class Collect_User(object):
 		self.server = server
 
 	def read(self):
+		"""
+		Populates the self.read_buffer of the object
+
+		:return: 0 if the read was successful, -1 otherwise
+		"""
 		try:
 			data = self.conn_fd.recv(self.BUF_SIZE)
 		except:
@@ -140,6 +136,14 @@ class Collect_User(object):
 			return -1
 
 	def get(self):
+		"""
+		@name: get(self)
+
+		@description: Returns json string message sent by the device
+
+		:return: json string containing the next message from the device
+
+		"""		
 		split = self.read_buffer.find('\END')
 		if split == -1:
 			return ''

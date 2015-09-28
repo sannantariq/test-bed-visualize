@@ -6,6 +6,13 @@ import Plotter as PT
 import time
 import json
 
+
+SERVER_IP = '86.36.34.202'
+SERVER_PORT = 5996
+PLOTLY_USERNAME = 'stariq'
+PLOTLY_KEY = '7wakatl28e'
+REGISTRY = 'registry.txt'
+
 # #####
 # @name:	convert_types(input)
 
@@ -544,8 +551,8 @@ class Server(object):
 		return -1
 
 if __name__ == "__main__":
-	f = os.popen('hostname -i')
-	HOST_IP = f.read().strip()
-	f.close()
-	server = Server(HOST_IP, 5996, 'stariq', '7wakatl28e', 'registry.txt')
+	# f = os.popen('hostname -i')
+	# HOST_IP = f.read().strip()
+	# f.close()
+	server = Server(SERVER_IP, SERVER_PORT, PLOTLY_USERNAME, PLOTLY_KEY, REGISTRY)
 	server.run()

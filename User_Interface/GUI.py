@@ -11,6 +11,9 @@ import webbrowser as web
 l = ['CPU', 'Memory', 'Bandwidth', 'Ethernet', 'Wifi', 'Bluetooth', 'Power']
 filters = ['Desktop/Laptop', 'Smartphone/Tablet', 'Embedded/Other']
 
+SERVER_IP = '86.36.34.202'
+SERVER_PORT = 5996
+
 class GUI(tk.Tk):
     def __init__(self, parent, client):
         tk.Tk.__init__(self, parent)
@@ -792,7 +795,7 @@ class Statistic_Tab(tk.Frame):
         # self.stats.set_quantity('Laptop/Desktop Nodes', 2)
 
 if __name__ == "__main__":
-    server_address = ('localhost', 5996)
+    server_address = (SERVER_IP, SERVER_PORT)
     app = GUI(None, client = UC.Client(server_address))
     # app = GUI(None, '<client>')
     app.title('Plot Controller')
