@@ -59,8 +59,8 @@ def gen_closest_square(plots):
 		root = int(root)
 		while plots % root != 0:
 			root -= 1
-		xlen = root
-		ylen = plots / root
+		ylen = root
+		xlen = plots / root
 		print xlen, ylen
 	return (float(xlen), float(ylen))
 
@@ -255,7 +255,7 @@ class Plot(object):
 				self.stream_dict[node_id][metric].close()
 
 	def get_url(self):
-		return self.url
+		return self.url + '.embed'
 
 	def set_owner(self, owner):
 		self.owner = owner
