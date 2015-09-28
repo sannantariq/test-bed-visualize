@@ -280,7 +280,18 @@ class User(object):
 	def start_plot(self, node_ids, metrics, maxpoints = 50):
 		# print self.plotter.new_plot_stream(src_file, maxpoints)
 		# print type(self.addr)
+		if (len(node_ids) == 0):
+			print "Not enough devices"
+			return
+
+		if (len(metrics) == 0):
+			print "Not enough metrics"
+			return
+			
 		plot = self.server.plotter.new_plot_stream('%s\'s plot' % (self.addr[0]), node_ids, metrics, self.conn_fd, maxpoints)
+		if (plot == None):
+			print "Plot could not be created"
+			return
 		# plot = self.server.plotter.new_plot_stream('Checking', [0], ['CPU', 'MEMORY'], client_fd = 1, maxpoints = 20)
 		plot.initialize()
 		plot.set_owner((self.addr, self.conn_fd))
