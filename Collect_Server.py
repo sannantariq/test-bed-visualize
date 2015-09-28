@@ -13,7 +13,7 @@ import os
 
 
 HOST_IP = '86.36.34.202'
-HOST_PORT = '4996'
+HOST_PORT = 4996
 POLL_INTERVAL = 0.2
 METRICS = ['CPU', 'MEMORY']
 REGISTRY = 'registry.txt'
