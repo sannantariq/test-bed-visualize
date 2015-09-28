@@ -12,6 +12,12 @@ import sys
 import os
 
 
+HOST_IP = '86.36.34.202'
+HOST_PORT = '4996'
+POLL_INTERVAL = 0.2
+METRICS = ['CPU', 'MEMORY']
+REGISTRY = 'registry.txt'
+
 
 class Collect_User(object):
 	"""
@@ -523,12 +529,12 @@ class Collect_Server(object):
 
 if __name__ == "__main__":
 	
-	f = os.popen('hostname -i')
-	HOST_IP = f.read().strip()
-	HOST_PORT = 4996
-	f.close()
+	# f = os.popen('hostname -i')
+	# HOST_IP = f.read().strip()
+	# HOST_PORT = 4996
+	# f.close()
 	print 'Initializing on ', HOST_IP, HOST_PORT
-	server = Collect_Server(HOST_IP, HOST_PORT, 1, ['CPU', 'MEMORY'], 'registry.txt')
+	server = Collect_Server(HOST_IP, HOST_PORT, POLL_INTERVAL, METRICS, REGISTRY)
 	# if len(sys.argv) != 5:
 	# 	print 'Usage: ./Collect_Server [port] [polling interval] [metric1, metric2...] [path to registry file]'
 	# 	exit()
