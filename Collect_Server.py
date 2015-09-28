@@ -190,7 +190,7 @@ class Collect_User(object):
 			self.server.nxt_id += 1
 			print "Info: self.info: ", self.info
 			towrite = json.dumps(self.info)
-			print 'Info: About to write:', towrite
+			#print 'Info: About to write:', towrite
 			self.reg_file.write(towrite + '\n')
 			curr = self.reg_file.tell()
 			self.reg_file.seek(0, 0)

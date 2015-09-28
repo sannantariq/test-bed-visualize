@@ -142,7 +142,7 @@ class Plot(object):
 		return layout
 
 	def create_traces(self):
-		print self.maxpoints
+		#print self.maxpoints
 		trace_dict = {}
 		numlist = ['' if w == 1 else str(w) for w in range(1, self.nodes + 1)]
 		axis_list = [('x'+w, 'y'+w) for w in numlist]
@@ -153,7 +153,7 @@ class Plot(object):
 			for metric in self.params:
 				token = self.tokens.pop()
 				trace_dict[key][metric] = (Scatter(x = [], y = [], name = 'Node %d - %s' % (key, metric), xaxis = xa, yaxis = ya, stream = Stream(token = token, maxpoints = self.maxpoints), connectgaps = True), token)
-		print trace_dict		
+		#print trace_dict		
 		assert(len(self.tokens) == 0)
 		return trace_dict
 
@@ -241,7 +241,7 @@ class Plot(object):
 			file_obj = self.files[metric]
 			file_obj.seek_end()
 			prev_data = file_obj.get_previous_n(self.maxpoints)
-			print prev_data
+			#print prev_data
 			for node in self.ids:
 				data_list = [(x, ys.get(node, '')) for (x, ys) in prev_data]
 				(xlist, ylist) = zip(*data_list)
