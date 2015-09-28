@@ -61,6 +61,7 @@ def gen_closest_square(plots):
 			root -= 1
 		xlen = root
 		ylen = plots / root
+		print xlen, ylen
 	return (float(xlen), float(ylen))
 
 # #####
@@ -78,7 +79,7 @@ def get_linspace(num):
 	inv = np.linspace(0, 1, num + 1)
 	in1 = inv[:len(inv)]
 	in2 = inv[1:]
-	in2 = [w - 0.06 for w in in2]
+	in2 = [w - 0.1 for w in in2]
 	return zip(in1, in2)
 
 # #####
