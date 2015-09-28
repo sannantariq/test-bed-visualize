@@ -153,6 +153,7 @@ class Plot(object):
 			for metric in self.params:
 				token = self.tokens.pop()
 				trace_dict[key][metric] = (Scatter(x = [], y = [], name = 'Node %d - %s' % (key, metric), xaxis = xa, yaxis = ya, stream = Stream(token = token, maxpoints = self.maxpoints), connectgaps = True), token)
+		print trace_dict		
 		assert(len(self.tokens) == 0)
 		return trace_dict
 
