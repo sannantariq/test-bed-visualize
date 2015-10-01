@@ -249,6 +249,9 @@ class User(object):
 			print 'Node IDS:', node_ids
 
 			self.start_plot(node_ids, metrics, maxpoints)
+			if self.plot == None:
+				print "Could not create plot"
+				return -1
 			if start_time != None:
 				self.plot.plot_jump(start_time)
 			url = self.plot.get_url()
@@ -280,7 +283,7 @@ class User(object):
 	def start_plot(self, node_ids, metrics, maxpoints = 50):
 		# print self.plotter.new_plot_stream(src_file, maxpoints)
 		# print type(self.addr)
-		if (len(node_ids) == 0):
+		if (len(node_ids.keys()) == 0):
 			print "Not enough devices"
 			return
 
@@ -305,12 +308,12 @@ class User(object):
 		# print filter_list
 		devices = self.server.reg_file.readlines()
 		self.server.reg_file.seek(0, 0)
-		node_ids = []
+		node_ids = {}
 		for device in devices:
 			dev_info = json.loads(device)
 			# print 'platform = ', str(dev_info['platform'])
 			if str(dev_info['platform']) in filter_list:
-				node_ids.append(int(dev_info['id']))
+				node_ids[int(dev_info['id'])] = dev_info.get('name', 'Unknown Device')
 		# print node_ids
 		# exit()
 		return node_ids

@@ -7,6 +7,7 @@ import time
 import json
 import User_Client as UC
 import webbrowser as web
+from tkMessageBox import showwarning
 
 l = ['CPU', 'Memory', 'Bandwidth', 'Ethernet', 'Wifi', 'Bluetooth', 'Power']
 filters = ['Desktop/Laptop', 'Smartphone/Tablet', 'Embedded/Other']
@@ -544,12 +545,13 @@ class Real_Time_Tab_options(ttk.LabelFrame):
         metrics = [s.upper() for s in self.metric_box.get_active()]
         maxpoints = int(self.mps.get_maxpoints())
         node_classes = self.node_slide.get_active()
-
-        send_cmd = {'cmd' : 'startnew', 'time' : time, 'metrics' : metrics, 'maxpoints' : maxpoints, 'node_classes': node_classes}
-
-        print json.dumps(send_cmd)
-        # exit()
-        self.client.send_command(json.dumps(send_cmd))
+        if (len(metrics) == 0 or len(node_classes) == 0):
+            showwarning('Invalid Options', 'Please make sure you have selected at least one metric and atleast one node class', parent = self)
+            self.enable()
+        else:
+            send_cmd = {'cmd' : 'startnew', 'time' : time, 'metrics' : metrics, 'maxpoints' : maxpoints, 'node_classes': node_classes}
+            print json.dumps(send_cmd)
+            self.client.send_command(json.dumps(send_cmd))
 
     def initialize(self):
         self.grid()

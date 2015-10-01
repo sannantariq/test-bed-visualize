@@ -121,7 +121,8 @@ def get_tokens_from_plots(plot_list):
 # @object variables:
 class Plot(object):
 	def __init__(self, title, node_ids, params, client_fd, tokens, maxpoints = 50):
-		self.ids = node_ids
+		self.ids = node_ids.keys()
+		self.device_names = node_ids
 		self.client_fd = client_fd
 		self.nodes = len(node_ids)
 		self.params = params
@@ -152,7 +153,7 @@ class Plot(object):
 		for (key, (xa, ya)) in zip(trace_dict.keys(), axis_list):
 			for metric in self.params:
 				token = self.tokens.pop()
-				trace_dict[key][metric] = (Scatter(x = [], y = [], name = 'Node %d - %s' % (key, metric), xaxis = xa, yaxis = ya, stream = Stream(token = token, maxpoints = self.maxpoints), connectgaps = True), token)
+				trace_dict[key][metric] = (Scatter(x = [], y = [], name = 'Node %s - %s' % (self.device_names[key], metric), xaxis = xa, yaxis = ya, stream = Stream(token = token, maxpoints = self.maxpoints), connectgaps = True), token)
 		#print trace_dict		
 		assert(len(self.tokens) == 0)
 		return trace_dict
@@ -279,7 +280,7 @@ class Plotter(object):
 
 	def new_plot_stream(self, title, node_ids, params, client_fd, maxpoints = 50):
 		print "INFO: Starting new plot"
-		nodes = len(node_ids)
+		nodes = len(node_ids.keys())
 		used_keys = self.get_used_tokens()
 		# print len(self.stream_ids) - len(used_keys)
 		# print nodes
