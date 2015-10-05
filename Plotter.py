@@ -32,8 +32,8 @@ def generate_layout(data_list):
 		ykey = 'yaxis'+number
 		anchorx = 'y' + number
 		anchory = 'x' + number
-		fd[xkey] = {'domain' : x, 'anchor' : anchorx}
-		fd[ykey] = {'domain' : y, 'anchor' : anchory}
+		fd[xkey] = {'domain' : x, 'anchor' : anchorx, 'title' : 'Time'}
+		fd[ykey] = {'domain' : y, 'anchor' : anchory, 'title' : '% Usage'}
 		i += 1
 	# print fd
 	# exit()
