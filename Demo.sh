@@ -1,6 +1,6 @@
 #!/bin/bash
-
+sleep 5
 python Collect_Server.py &
-sleep 2
+sleep 5
 ./run_eddies.sh &
-python Streamer.py
+gnome-terminal -e ./Streamer.py
