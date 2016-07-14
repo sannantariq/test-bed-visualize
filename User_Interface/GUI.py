@@ -9,7 +9,7 @@ import User_Client as UC
 import webbrowser as web
 from tkMessageBox import showwarning
 
-l = ['CPU', 'Memory', 'Bandwidth', 'Ethernet', 'Wifi', 'Bluetooth', 'Power']
+l = ['CPU', 'Memory', 'Bandwidth', 'Ethernet', 'Wifi', 'Power']
 filters = ['Desktop/Laptop', 'Smartphone/Tablet', 'Embedded/Other']
 
 SERVER_IP = '86.36.34.202'
@@ -38,7 +38,7 @@ class GUI(tk.Tk):
 
     def initialize(self):
         self.grid()
-        self.client.connect()
+        # self.client.connect()
         self.note = ttk.Notebook(self)
         self.realtab = Real_Time_Tab(self.note, client = self.client)
         self.statictab = Static_Tab(self.note, client = self.client)
@@ -63,11 +63,18 @@ class Device_Filter(ttk.LabelFrame):
         self.grid()
         self.configure(width = 30)
         s = ttk.Style()
-        s.configure('TCheckbutton', anchor = tk.W, width = 30)
+        s.configure('TCheckbutton', anchor = tk.W, width = 20)
         [self.val_dict.update({w : tk.IntVar()}) for w in self.filters]
         self.check_list = [ttk.Checkbutton(self, text = w, variable = self.val_dict[w], style = 'TCheckbutton') for w in self.val_dict.keys()]
-        [w.grid(column = 1, row = i) for (i, w) in enumerate(self.check_list, start = 1)]
-        ttk.Label(self, text = 'Pick Devices to Plot:', anchor = tk.W, width = 40, background = 'lightgrey').grid(column = 0, row = 0, pady = 5)
+        col = 0;
+        row = 1;
+        for w in self.check_list:
+        	w.grid(column = col, row = row, padx = 5);
+        	col += 1;
+        	if col > 2:
+        		col = 0;
+        		row += 1;
+        ttk.Label(self, text = 'Pick Devices to Plot:', anchor = tk.W, width = 20, background = 'lightgrey').grid(column = 0, row = 0, pady = 5)
 
     def get_active(self):
         return [w for w in self.val_dict.keys() if self.val_dict[w].get() == 1]
@@ -163,11 +170,19 @@ class Metric_Check(ttk.LabelFrame):
         self.grid()
         self.configure(width = 30)
         s = ttk.Style()
-        s.configure('TCheckbutton', anchor = tk.W, width = 30)
+        s.configure('TCheckbutton', anchor = tk.W, width = 20)
         [self.val_dict.update({w : tk.IntVar()}) for w in self.val_list]
         self.check_list = [ttk.Checkbutton(self, text = w, variable = self.val_dict[w], style = 'TCheckbutton') for w in self.val_dict.keys()]
-        [w.grid(column = 1, row = i) for (i, w) in enumerate(self.check_list, start = 1)]
-        ttk.Label(self, text = 'Pick Metrics to Plot:', anchor = tk.W, width = 40, background = 'lightgrey').grid(column = 0, row = 0, pady = 5)
+        col = 0;
+        row = 1;
+        for w in self.check_list:
+        	w.grid(column = col, row = row, padx = 5);
+        	col += 1;
+        	if col > 2:
+        		col = 0;
+        		row += 1;
+        # [w.grid(column = 1, row = i) for (i, w) in enumerate(self.check_list, start = 1)]
+        ttk.Label(self, text = 'Pick Metrics to Plot:', anchor = tk.W, width = 20, background = 'lightgrey').grid(column = 0, row = 0, pady = 5)
 
     def get_active(self):
         return [w for w in self.val_dict.keys() if self.val_dict[w].get() == 1]
@@ -420,11 +435,11 @@ class DTControl(tk.Frame):
         self.grid()
         self.timevar = tk.StringVar()
         self.timevar.set(self.entry_label + ' -')
-        self.timelabel = ttk.Label(self, textvariable = self.timevar, width = 62, anchor = tk.W, background = 'lightgrey')
+        self.timelabel = ttk.Label(self, textvariable = self.timevar, width = 50, anchor = tk.W, background = 'lightgrey')
         self.open_button = ttk.Button(self, text = 'Pick', width = 10, command = self.open_calendar)
-        ypadding = 2
+        ypadding = 0
         self.timelabel.grid(column = 0, row = 0, pady = ypadding)
-        self.open_button.grid(column = 1, row = 1, pady = ypadding)
+        self.open_button.grid(column = 1, row = 0, pady = ypadding, padx = 2)
 
 class Maxpoint_Scale(ttk.LabelFrame):
     def __init__(self, parent, low_limit, high_limit):
@@ -501,8 +516,8 @@ class Add_Shared(ttk.LabelFrame):
 
     def initialize(self):
         self.grid()
-        url_label = ttk.Label(self, text = 'Enter URL here:', width = 20, background = 'lightgrey')
-        self.url_entry = ttk.Entry(self, width = 42)
+        url_label = ttk.Label(self, text = 'Enter URL here:', width = 15, background = 'lightgrey')
+        self.url_entry = ttk.Entry(self, width = 35)
         self.url_add_button = ttk.Button(self, text = 'Add', command = self.add_button_pressed, width = 10)
         self.url_remove_button = ttk.Button(self, text = 'Remove', command = self.remove_button_pressed, width = 10)
         url_label.grid(column = 0, row = 0, padx = 10)
@@ -560,8 +575,8 @@ class Real_Time_Tab_options(ttk.LabelFrame):
         # self.node_slide = Double_Slider(self, self.node_range[0], self.node_range[1])
         self.node_slide = Device_Filter(self, filters)
         self.mps = Maxpoint_Scale(self, low_limit = 10, high_limit = 120)
-        xpadding = 10
-        ypadding = 10
+        xpadding = 5
+        ypadding = 0
         self.date_time.grid(column = 0, row = 0, padx = xpadding, pady = ypadding)
         self.metric_box.grid(column = 0, row = 1, padx = xpadding, pady = ypadding)
         self.node_slide.grid(column = 0, row = 2, padx = xpadding, pady = ypadding)
@@ -627,19 +642,20 @@ class Real_Time_Tab_controls(ttk.LabelFrame):
 
     def initialize(self):
         self.grid()
-        self.pause_button = ttk.Button(self, text = '||', command = self.pause, width = 10)
-        self.resume_button = ttk.Button(self, text = '>', command = self.resume, width = 10)
-        self.resume_last_button = ttk.Button(self, text = '>|', command = self.resume_last, width = 10)
-        self.resume_recent_button = ttk.Button(self, text = '>>', command = self.resume_recent, width = 10)
-        self.seek_button = ttk.Button(self, text = 'Seek', command = self.seek, width = 10)
+        bt_width = 8;
+        self.pause_button = ttk.Button(self, text = '||', command = self.pause, width = bt_width)
+        self.resume_button = ttk.Button(self, text = '>', command = self.resume, width = bt_width)
+        self.resume_last_button = ttk.Button(self, text = '>|', command = self.resume_last, width = bt_width)
+        self.resume_recent_button = ttk.Button(self, text = '>>', command = self.resume_recent, width = bt_width)
+        self.seek_button = ttk.Button(self, text = 'Seek', command = self.seek, width = bt_width)
         self.seek_time_frame = DTControl(self, clock = self.clock, entry_label = 'Go To Time:')
-        self.stop_button = ttk.Button(self, text = 'Stop', command = self.stop_plot, width = 10)
+        self.stop_button = ttk.Button(self, text = 'Stop', command = self.stop_plot, width = bt_width)
 
-        xpadding = 2
-        ypadding = 1
+        xpadding = 5
+        ypadding = 0
 
         # ttk.Label(self, text = 'Plot Controls').grid(column = 0, row = 0)
-        self.seek_time_frame.grid(column = 0, row = 0, pady = 10, columnspan = 4, padx = 10)
+        self.seek_time_frame.grid(column = 0, row = 0, pady = 5, columnspan = 4, padx = 10)
         self.seek_button.grid(column = 4, row = 0)
         self.pause_button.grid(column = 0, row = 2, padx = xpadding, pady = ypadding)
         self.resume_button.grid(column = 1, row = 2, padx = xpadding, pady = ypadding)
@@ -674,12 +690,12 @@ class Real_Time_Tab_share(ttk.LabelFrame):
 
     def initialize(self):
         self.url = tk.StringVar()
-        self.url_display_entry = ttk.Entry(self, width = 50, textvariable = self.url)
+        self.url_display_entry = ttk.Entry(self, width = 30, textvariable = self.url)
         self.control_share = Add_Shared(self)
-        ttk.Label(self, text = 'URL:', width = 30).grid(column = 0, row = 0)
+        ttk.Label(self, text = 'URL:', width = 20).grid(column = 0, row = 0)
 
         self.url_display_entry.grid(column = 1, row = 0, columnspan = 2, padx = 5)
-        self.control_share.grid(column = 0, row = 1, columnspan = 3, padx = 10, pady = 10)
+        self.control_share.grid(column = 0, row = 1, columnspan = 3, padx = 10, pady = 5)
 
 class Real_Time_Tab(tk.Frame):
     def __init__(self, parent, client):
@@ -694,9 +710,10 @@ class Real_Time_Tab(tk.Frame):
         self.realtabshare = Real_Time_Tab_share(self, client = self.client)
         self.realtabcons = Real_Time_Tab_controls(self, clock = '12', client = self.client)
         self.realtabcons.disable()
-        self.realtab.grid(column = 0, row = 0, rowspan = 16, padx = 10)
-        self.realtabshare.grid(column = 1, row = 3)
-        self.realtabcons.grid(column = 1, row = 0, rowspan = 3, padx = 10)
+        self.realtab.grid(column = 0, row = 0)
+        self.realtabcons.grid(column = 0, row = 1)
+        self.realtabshare.grid(column = 0, row = 2)
+        
 
 class Static_Tab_options(ttk.LabelFrame):
     def __init__(self, parent, clock = '12', metrics = [], node_range = [0, 100]):
@@ -739,19 +756,22 @@ class Static_Tab_options(ttk.LabelFrame):
         self.date_time_start = DTControl(self, self.clock)
         self.date_time_end = DTControl(self, self.clock, entry_label = 'End Time:')
         self.metric_box = Metric_Check(self, val_list = self.metrics)
-        self.node_slide = Double_Slider(self, self.node_range[0], self.node_range[1])
-        self.mps = Maxpoint_Scale(self, low_limit = 10, high_limit = 120)
-        xpadding = 10
-        ypadding = 10
-        self.date_time_start.grid(column = 0, row = 0, padx = xpadding, pady = ypadding)
-        self.date_time_end.grid(column = 1, row = 0, padx = xpadding, pady = ypadding)
-        self.metric_box.grid(column = 0, row = 1, padx = xpadding, pady = ypadding)
-        self.node_slide.grid(column = 0, row = 2, padx = xpadding, pady = ypadding)
-        self.mps.grid(column = 0, row = 3, padx = xpadding, pady = ypadding)
+        # self.node_slide = Double_Slider(self, self.node_range[0], self.node_range[1])
+        self.node_slide = self.node_slide = Device_Filter(self, filters);
+        # self.mps = Maxpoint_Scale(self, low_limit = 10, high_limit = 120)
+        xpadding = 20
+        ypadding = 20
+        self.date_time_start.grid(column = 0, row = 0, padx = xpadding, pady = ypadding, columnspan = 2)
+        self.date_time_end.grid(column = 0, row = 1, padx = xpadding, pady = ypadding, columnspan = 2)
+        self.metric_box.grid(column = 0, row = 2, padx = xpadding, pady = ypadding, columnspan = 2)
+        self.node_slide.grid(column = 0, row = 3, padx = xpadding, pady = ypadding, columnspan = 2)
+        # self.mps.grid(column = 0, row = 4, padx = xpadding, pady = ypadding, columnspan = 2)
         self.start_plot_button = ttk.Button(self, width = 20, text = 'Display Plot', command = self.start_button_press)
-        self.start_plot_button.grid(column = 0, row = 4, pady = ypadding)
+        self.start_plot_button.grid(column = 0, row = 5, pady = ypadding)
         self.download_button = ttk.Button(self, width = 20, text = 'Download Plot', command = self.download_button_press)
-        self.download_button.grid(column = 1, row = 4, pady = ypadding)
+        self.download_button.grid(column = 1, row = 5, pady = ypadding)
+
+
 
 class Static_Tab(tk.Frame):
     def __init__(self, parent, client):
@@ -782,7 +802,7 @@ class Stats(ttk.LabelFrame):
         self.quantities = {k : tk.StringVar() for k in self.quant_list}
         [self.quantities[k].set('%.30s : ' % (k)) for k in self.quantities.keys()]
         label_list = [ttk.Label(self, textvariable = self.quantities[k], anchor = tk.W, width = 40) for k in self.quant_list]
-        [label.grid(column = 0, row = i) for (i, label) in enumerate(label_list)]
+        [label.grid(column = 0, row = i, pady = 5) for (i, label) in enumerate(label_list)]
 
 
 class Statistic_Tab(tk.Frame):
@@ -792,10 +812,34 @@ class Statistic_Tab(tk.Frame):
 
     def initialize(self):
         self.grid()
-        self.stats = Stats(self, ['Laptop/Desktop Nodes', 'Smartphone/Tablet Nodes', 'Embedded/Other Nodes'])
+        self.stats = Stats(self, ['Total Nodes Registered',
+        							'Laptop/Desktop Nodes',
+        							'Smartphone/Tablet Nodes',
+        							'Embedded/Other Nodes',
+        							'Total Nodes Failed',
+        							'Total Tasks Completed',
+        							'Average Task Completion Time (sec)',
+        							'Total CPU Cores Available',
+        							'Average CPU Frequency/Core (MHz)',
+        							'Average Memory/Device (MB)',
+        							'Average Ping (ms)',
+        							'Current pool CPU usage %',
+        							'Current pool Memory usage %',
+        							])
         self.stats.grid(column = 0, row = 0)
-        # self.stats.set_quantity('Laptop/Desktop Nodes', 2)
-
+        self.stats.set_quantity('Total Nodes Registered', 5)
+        self.stats.set_quantity('Laptop/Desktop Nodes', 0)
+        self.stats.set_quantity('Smartphone/Tablet Nodes', 1)
+        self.stats.set_quantity('Embedded/Other Nodes', 4)
+        self.stats.set_quantity('Total Nodes Failed', 0)
+        self.stats.set_quantity('Total Tasks Completed', 11)
+        self.stats.set_quantity('Average Task Completion Time (sec)', 2.37)
+        self.stats.set_quantity('Total CPU Cores Available', 10)
+        self.stats.set_quantity('Average CPU Frequency/Core (MHz)', 760.00)
+        self.stats.set_quantity('Average Memory/Device (MB)', 1000.00)
+        self.stats.set_quantity('Average Ping (ms)', 124.18)
+        self.stats.set_quantity('Current pool CPU usage %', 34)
+        self.stats.set_quantity('Current pool Memory usage %', 42)
 if __name__ == "__main__":
     server_address = (SERVER_IP, SERVER_PORT)
     app = GUI(None, client = UC.Client(server_address))

@@ -262,6 +262,30 @@ class Plot(object):
 		self.owner = owner
 
 
+class Heatmap(object):
+	def __init__(self, title, node_ids, params, client_fd, tokens):
+		self.ids = node_ids.keys()
+		self.device_names = node_ids
+		self.client_fd = client_fd
+		self.nodes = len(node_ids)
+		self.params = params
+		self.tokens = tokens
+		self.title = title
+		self.stream_dict = {}
+		self.owner = client_fd
+		self.files = {k : FR.FileReader('%s-metric.txt' % (k)) for k in params}
+
+	def initialize(self):
+		self.trace_dict  = self.create_traces()
+		self.trace_list = self.get_trace_list()
+		
+		data = Data(self.trace_list)
+		self.stream_dict = self.get_stream_dict()
+		# print self.stream_dict.values()
+		fig = Figure(data = data, layout = self.create_layout())
+		self.url = py.plot(fig, filename = 'User View', auto_open = False)
+		# self.url = py.plot(fig, filename = 'User View')
+
 class Plotter(object):
 	def __init__(self, username, password):
 		self.username = username
@@ -295,14 +319,25 @@ class Plotter(object):
 		self.plots[client_fd] = plot
 		return plot
 
+	def new_heatmap_stream(self, title, params, node_ids, client_fd, maxpoints = 50):
+		print "INFO: Starting new heatmap"
+		nodes = len(node_ids.keys());
+		used_keys = self.get_used_tokens();
+		if (len(self.stream_ids) - len(used_keys)) < len(params):
+			print 'ERROR: Not enough keys'
+			return None
+		tokens = []
+		[tokens.append(key) for key in self.stream_ids if key not in used_keys and len(tokens) < len(params)]
+
+
 	def remove_plot(self, plot):
 		self.plots.remove(plot)
 
 
-# username = "stariq"
-# password = "7wakatl28e"
-# newPlotter = Plotter(username, password)
-# p = newPlotter.new_plot_stream('Checking', [0], ['CPU'], client_fd = 1, maxpoints = 20)
+username = "stariq"
+password = "7wakatl28e"
+newPlotter = Plotter(username, password)
+p = newPlotter.new_heatmap_stream_stream('Checking', range(10), ['CPU'], client_fd = 1, maxpoints = 20)
 # p.initialize()
 # print 'stream dictionary', p.stream_dict
 # p.init_streams()
